@@ -1,9 +1,15 @@
 <?php 
 require '../config.php';
+
 require '../models/Users.php';
+
+session_start();
+
 class UsuariodaomySQ implements UsuarioDao  {
     // variable database 
     private $pdo;
+
+    private $idprofile;
     public function __construct(PDO $driver)
     {
         $this->pdo = $driver;
@@ -116,27 +122,32 @@ class UsuariodaomySQ implements UsuarioDao  {
              $idGet = $idLook->fetch(); 
 
              $id = $idGet[0];
+
+            
              // get Token in DataBase
              $seecont = $sql->fetch();
-             
+           
              $token =  $seecont[0];
             
-           
+    
            
             if($token === ''){
               //generated
                  echo 'Generated Token:'. $Tokencheck;
                 echo 'id:'.$id;
+      
                  $insertToken = $this->pdo->prepare("UPDATE USERS SET token = :token WHERE id = :id ");
                  
-                                            $insertToken->bindValue(':id', $id);
-                                               // insert token into Database
-                                        $insertToken->bindValue(':token', $Tokencheck);
+              $insertToken->bindValue(':id', $id);
+      // insert token into Database
+            $insertToken->bindValue(':token', $Tokencheck);
                 
-                                                 $insertToken->execute();
+            $insertToken->execute();
                   
             } else{
-               echo 'token:'. $token;
+               echo 'token:'. $token. '<br/>';
+               echo $id;
+               header('Location: http://127.0.0.1/loginHKL/users/profile.php/'.$id);
          
         
             }
@@ -151,7 +162,35 @@ class UsuariodaomySQ implements UsuarioDao  {
      }
 
       }
+      public function checkID(){
+        $UrlAtual= "$_SERVER[REQUEST_URI]";
+         $idUSEr = explode('/', $UrlAtual);
+            $idUSuARIOatual = $idUSEr[4];
+          
+        $idDTbs = $this->pdo->prepare('SELECT *  FROM USERS WHERE id = :id');
+
+        $idDTbs->bindValue(':id', $idUSuARIOatual);
+
+        $idDTbs->execute();
+        
+        $idGetAll = $idDTbs->fetch();
+
+       $sendForID =  new Usuario();
+
+       //$sendForID->setId($idGetAll['id']);
+      // $sendForID->setEmail($idGetAll['email']);
+       $sendForID->setName($idGetAll['name']);
+       //$sendForID->setPass($idGetAll['password']);
+       //$sendForID->setToken($idGetAll['token']);
   
+       
+
+       return print_r($sendForID);
+
+
+      }
+
+
       public function resetPassword(Usuario $password){
       
       } 

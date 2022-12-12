@@ -66,4 +66,6 @@ public function aDd(Usuario $add);
     public function checkToken($Tokencheck, $logineml, $md5Pass); // variables they are in login_action.php
 
     public function resetPassword(Usuario $password);
+
+    public function checkID();
 }

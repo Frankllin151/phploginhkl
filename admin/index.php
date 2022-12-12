@@ -23,7 +23,7 @@ foreach ($Admins as $admUser) {
       $logado =   $admUser['email'];
   
   } else {
-    header('Location: http://127.0.0.1/systemlogin');
+    header('Location: http://127.0.0.1/loginHKL');
  
   }
 }

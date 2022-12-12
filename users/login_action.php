@@ -16,9 +16,4 @@ $logineml = $emailOgin;
 
 
 
-if($daomysql->checkToken($Tokencheck, $logineml, $md5Pass) === false){
-
-
-} else{
-
-}
+$daomysql->checkToken($Tokencheck, $logineml, $md5Pass);
