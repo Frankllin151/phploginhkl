@@ -1,6 +1,6 @@
 <?php
 
-$Ba_se = 'http://127.0.0.1/loginHKL/';
+$Ba_se = 'http://127.0.0.1/loginHKL';
 
 $DBname =  'ploginfmw';
 

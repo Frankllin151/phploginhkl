@@ -99,28 +99,42 @@ class UsuariodaomySQ implements UsuarioDao  {
            if($passKey === $md5Pass){
                  // check Token if he exists 
             $sql = $this->pdo->prepare("SELECT token FROM USERS WHERE email = :email AND password = :password ");
-
             $sql->bindValue(':email',  $logineml);
             
-           $sql->bindValue(':password', $md5Pass);
-    
-            $sql->execute();
-            // get Token in DataBase
-            $seecont = $sql->fetch();
+            $sql->bindValue(':password', $md5Pass);
+     
+             $sql->execute();
+                // Get id of user
+             $idLook = $this->pdo->prepare("SELECT id FROM USERS WHERE email = :email AND password = :password ");
+             
+            $idLook->bindValue(':email', $logineml);
+
+            $idLook->bindValue(':password', $md5Pass);
+
+          $idLook->execute();
+             
+             $idGet = $idLook->fetch(); 
+
+             $id = $idGet[0];
+             // get Token in DataBase
+             $seecont = $sql->fetch();
+             
+             $token =  $seecont[0];
             
-            $token =  $seecont[0];
-    
            
            
             if($token === ''){
               //generated
                  echo 'Generated Token:'. $Tokencheck;
-                 $insertToken = $this->pdo->prepare("INSERT INTO  :token FROM USERS WHERE email = :email AND password = :password");
-               
-                 $insertToken->bindValue(':token', $Tokencheck);
-
-                 $insertToken->execute();
+                echo 'id:'.$id;
+                 $insertToken = $this->pdo->prepare("UPDATE USERS SET token = :token WHERE id = :id ");
                  
+                                            $insertToken->bindValue(':id', $id);
+                                               // insert token into Database
+                                        $insertToken->bindValue(':token', $Tokencheck);
+                
+                                                 $insertToken->execute();
+                  
             } else{
                echo 'token:'. $token;
          
