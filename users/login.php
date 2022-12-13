@@ -32,5 +32,8 @@
     <input type="submit" value="Send">
 </div>
 </form>
+<p>
+    Não Tem conta <a href="<?= $Ba_se; ?>/users/register.php">click aqui</a>
+</p>
 </body>
 </html>

@@ -18,7 +18,15 @@ $daomysql->checkID();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
+<body> <br>
+<?php
+ $idexit =  $_SESSION['id'];
+ 
+?>
     
+    <form action="<?= $Ba_se; ?>/users/exit.php" method="POST">
+    <input type="submit" value="Exit">
+               <input type="hidden" name="id"  value="<?= $idexit[0] ?>">
+</form>
 </body>
 </html>

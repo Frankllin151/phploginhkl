@@ -3,13 +3,13 @@ require '../config.php';
 
 require '../models/Users.php';
 
-session_start();
+
 
 class UsuariodaomySQ implements UsuarioDao  {
     // variable database 
     private $pdo;
 
-    private $idprofile;
+    public $Ba_se;
     public function __construct(PDO $driver)
     {
         $this->pdo = $driver;
@@ -133,8 +133,7 @@ class UsuariodaomySQ implements UsuarioDao  {
            
             if($token === ''){
               //generated
-                 echo 'Generated Token:'. $Tokencheck;
-                echo 'id:'.$id;
+               
       
                  $insertToken = $this->pdo->prepare("UPDATE USERS SET token = :token WHERE id = :id ");
                  
@@ -143,10 +142,9 @@ class UsuariodaomySQ implements UsuarioDao  {
             $insertToken->bindValue(':token', $Tokencheck);
                 
             $insertToken->execute();
-                  
+            header('Location: http://127.0.0.1/loginHKL/users/profile.php/'.$id);   
             } else{
-               echo 'token:'. $token. '<br/>';
-               echo $id;
+              
                header('Location: http://127.0.0.1/loginHKL/users/profile.php/'.$id);
          
         
@@ -174,20 +172,30 @@ class UsuariodaomySQ implements UsuarioDao  {
         $idDTbs->execute();
         
         $idGetAll = $idDTbs->fetch();
-
-       $sendForID =  new Usuario();
-
-       //$sendForID->setId($idGetAll['id']);
-      // $sendForID->setEmail($idGetAll['email']);
-       $sendForID->setName($idGetAll['name']);
-       //$sendForID->setPass($idGetAll['password']);
-       //$sendForID->setToken($idGetAll['token']);
-  
        
+       
+        if($idGetAll['id'] == $idUSuARIOatual){
+          session_start();
 
-       return print_r($sendForID);
-
-
+          $_SESSION['id'] = $idGetAll;
+          
+          
+          if(!$idGetAll['token']){
+            header("Location: http://127.0.0.1/loginHKL/users/login.php");  
+          } else{
+            echo 'Bem vindo: '. $idGetAll['name'];
+         
+          
+     
+          }
+          
+        } else{
+          header("Location: http://127.0.0.1/loginHKL/users/register.php");
+        }
+        
+       
+          
+        
       }
 
 
