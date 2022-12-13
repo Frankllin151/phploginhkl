@@ -22,7 +22,7 @@ At login if the visitor did not have a login and even so he types the email that
 DATABASE
  -> for you to define
  
- #Configure Base 
+ #Configure Base :
  configure the base can be any name. To configure the base enter the config.php file
  
  #CREDIT: 
